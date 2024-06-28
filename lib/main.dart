@@ -1,8 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:twitter_auth_clone/auth/sign_up_screen.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:twitter_auth_clone/features/main_navigation/repos/dark_mode_config_repo.dart';
+import 'package:twitter_auth_clone/features/main_navigation/views/view_model/dark_mode_config_vm.dart';
+import 'package:twitter_auth_clone/router.dart';
 
-void main() {
-  runApp(const TwitterAuth());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
+
+  final preferences = await SharedPreferences.getInstance();
+  final repository = DarkModeConfigRepo(preferences);
+
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(
+      create: (context) => DarkModeConfigVm(repository),
+    ),
+  ], child: const TwitterAuth()));
 }
 
 class TwitterAuth extends StatelessWidget {
@@ -10,15 +28,22 @@ class TwitterAuth extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
+      routerConfig: router,
       debugShowCheckedModeBanner: false,
       title: "Twitter Auth",
+      themeMode: context.watch<DarkModeConfigVm>().darkMode
+          ? ThemeMode.dark
+          : ThemeMode.light,
       theme: ThemeData(
+        brightness: Brightness.light,
+        textTheme: Typography.blackMountainView,
         appBarTheme: const AppBarTheme(
           foregroundColor: Color(0xff1D9BF0),
           backgroundColor: Colors.transparent,
           elevation: 0,
           centerTitle: true,
+          scrolledUnderElevation: 0.0,
         ),
         primaryColor: const Color(0xff1D9BF0),
         scaffoldBackgroundColor: Colors.white,
@@ -26,7 +51,20 @@ class TwitterAuth extends StatelessWidget {
           color: Colors.white,
         ),
       ),
-      home: const SignUpScreen(),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        textTheme: Typography.whiteMountainView,
+        appBarTheme: AppBarTheme(
+          centerTitle: true,
+          scrolledUnderElevation: 0.0,
+          backgroundColor: Colors.grey.shade900,
+        ),
+        scaffoldBackgroundColor: Colors.black,
+        primaryColor: const Color(0xff1D9BF0),
+        bottomAppBarTheme: BottomAppBarTheme(
+          color: Colors.grey.shade700,
+        ),
+      ),
     );
   }
 }
