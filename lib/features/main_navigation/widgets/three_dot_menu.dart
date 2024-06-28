@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:twitter_auth_clone/constant/gaps.dart';
 import 'package:twitter_auth_clone/constant/sizes.dart';
 import 'package:twitter_auth_clone/features/main_navigation/views/view_model/dark_mode_config_vm.dart';
 
-class ThreeDotMenu extends StatefulWidget {
+class ThreeDotMenu extends ConsumerStatefulWidget {
   const ThreeDotMenu({super.key});
 
   @override
-  State<ThreeDotMenu> createState() => _ThreeDotMenuState();
+  ThreeDotMenuState createState() => ThreeDotMenuState();
 }
 
-class _ThreeDotMenuState extends State<ThreeDotMenu> {
+class ThreeDotMenuState extends ConsumerState<ThreeDotMenu> {
   int _currentIndex = 0;
 
   void _onTapButton() {
@@ -26,7 +26,7 @@ class _ThreeDotMenuState extends State<ThreeDotMenu> {
       appBar: _currentIndex == 0
           ? null
           : AppBar(
-              backgroundColor: context.watch<DarkModeConfigVm>().darkMode
+              backgroundColor: ref.watch(darkModeConfigProvider).darkMode
                   ? Colors.black
                   : Colors.white,
               title: Text(
@@ -34,13 +34,13 @@ class _ThreeDotMenuState extends State<ThreeDotMenu> {
                 style: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: Sizes.size20,
-                    color: context.watch<DarkModeConfigVm>().darkMode
+                    color: ref.watch(darkModeConfigProvider).darkMode
                         ? Colors.grey.shade200
                         : Colors.black),
               ),
               leading: IconButton(
                 icon: Icon(Icons.arrow_back,
-                    color: context.watch<DarkModeConfigVm>().darkMode
+                    color: ref.watch(darkModeConfigProvider).darkMode
                         ? Colors.grey.shade200
                         : Colors.black),
                 onPressed: () {
@@ -62,7 +62,7 @@ class _ThreeDotMenuState extends State<ThreeDotMenu> {
                       Expanded(
                         child: Container(
                           decoration: BoxDecoration(
-                            color: context.watch<DarkModeConfigVm>().darkMode
+                            color: ref.watch(darkModeConfigProvider).darkMode
                                 ? Colors.grey.shade600
                                 : Colors.grey.shade100,
                             borderRadius: const BorderRadius.only(
@@ -75,7 +75,7 @@ class _ThreeDotMenuState extends State<ThreeDotMenu> {
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: Sizes.size20,
-                              color: context.watch<DarkModeConfigVm>().darkMode
+                              color: ref.watch(darkModeConfigProvider).darkMode
                                   ? Colors.grey.shade300
                                   : Colors.black,
                             ),
@@ -90,7 +90,7 @@ class _ThreeDotMenuState extends State<ThreeDotMenu> {
                       Expanded(
                         child: Container(
                           decoration: BoxDecoration(
-                            color: context.watch<DarkModeConfigVm>().darkMode
+                            color: ref.watch(darkModeConfigProvider).darkMode
                                 ? Colors.grey.shade600
                                 : Colors.grey.shade100,
                             borderRadius: const BorderRadius.only(
@@ -103,7 +103,7 @@ class _ThreeDotMenuState extends State<ThreeDotMenu> {
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: Sizes.size20,
-                              color: context.watch<DarkModeConfigVm>().darkMode
+                              color: ref.watch(darkModeConfigProvider).darkMode
                                   ? Colors.grey.shade300
                                   : Colors.black,
                             ),
@@ -118,7 +118,7 @@ class _ThreeDotMenuState extends State<ThreeDotMenu> {
                       Expanded(
                         child: Container(
                           decoration: BoxDecoration(
-                            color: context.watch<DarkModeConfigVm>().darkMode
+                            color: ref.watch(darkModeConfigProvider).darkMode
                                 ? Colors.grey.shade600
                                 : Colors.grey.shade100,
                             borderRadius: const BorderRadius.only(
@@ -131,7 +131,7 @@ class _ThreeDotMenuState extends State<ThreeDotMenu> {
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: Sizes.size20,
-                              color: context.watch<DarkModeConfigVm>().darkMode
+                              color: ref.watch(darkModeConfigProvider).darkMode
                                   ? Colors.grey.shade300
                                   : Colors.black,
                             ),
@@ -148,7 +148,7 @@ class _ThreeDotMenuState extends State<ThreeDotMenu> {
                         Expanded(
                           child: Container(
                             decoration: BoxDecoration(
-                              color: context.watch<DarkModeConfigVm>().darkMode
+                              color: ref.watch(darkModeConfigProvider).darkMode
                                   ? Colors.grey.shade600
                                   : Colors.grey.shade100,
                               borderRadius: const BorderRadius.only(
@@ -180,7 +180,7 @@ class _ThreeDotMenuState extends State<ThreeDotMenu> {
                       Text(
                         "Why are you reporting this thread?",
                         style: TextStyle(
-                          color: context.watch<DarkModeConfigVm>().darkMode
+                          color: ref.watch(darkModeConfigProvider).darkMode
                               ? Colors.grey.shade200
                               : Colors.black,
                           fontSize: Sizes.size20,
@@ -230,7 +230,7 @@ class _ThreeDotMenuState extends State<ThreeDotMenu> {
   }
 }
 
-class ReportDetails extends StatelessWidget {
+class ReportDetails extends ConsumerWidget {
   final String text;
   const ReportDetails({
     super.key,
@@ -238,7 +238,7 @@ class ReportDetails extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       children: [
         Container(
@@ -258,7 +258,7 @@ class ReportDetails extends StatelessWidget {
               Text(
                 text,
                 style: TextStyle(
-                  color: context.watch<DarkModeConfigVm>().darkMode
+                  color: ref.watch(darkModeConfigProvider).darkMode
                       ? Colors.grey.shade200
                       : Colors.black,
                   fontWeight: FontWeight.w400,

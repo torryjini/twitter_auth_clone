@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:twitter_auth_clone/constant/gaps.dart';
 import 'package:twitter_auth_clone/constant/sizes.dart';
 import 'package:twitter_auth_clone/features/main_navigation/views/view_model/dark_mode_config_vm.dart';
 import 'package:twitter_auth_clone/features/main_navigation/widgets/follow_button.dart';
 import 'package:twitter_auth_clone/features/main_navigation/widgets/thumbnail.dart';
 
-class ActivityListTile extends StatelessWidget {
+class ActivityListTile extends ConsumerWidget {
   final String userId;
   final String time;
   final String desc;
@@ -21,7 +21,7 @@ class ActivityListTile extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       decoration: BoxDecoration(
         border: Border(
@@ -46,7 +46,7 @@ class ActivityListTile extends StatelessWidget {
             Text(
               userId,
               style: TextStyle(
-                color: context.watch<DarkModeConfigVm>().darkMode
+                color: ref.watch(darkModeConfigProvider).darkMode
                     ? Colors.grey.shade200
                     : Colors.black,
                 fontWeight: FontWeight.bold,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:twitter_auth_clone/features/main_navigation/repos/dark_mode_config_repo.dart';
 import 'package:twitter_auth_clone/features/main_navigation/views/view_model/dark_mode_config_vm.dart';
@@ -16,23 +16,28 @@ void main() async {
   final preferences = await SharedPreferences.getInstance();
   final repository = DarkModeConfigRepo(preferences);
 
-  runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(
-      create: (context) => DarkModeConfigVm(repository),
+  runApp(
+    ProviderScope(
+      overrides: [
+        darkModeConfigProvider.overrideWith(
+          () => DarkModeConfigVm(repository),
+        ),
+      ],
+      child: const TwitterAuth(),
     ),
-  ], child: const TwitterAuth()));
+  );
 }
 
-class TwitterAuth extends StatelessWidget {
+class TwitterAuth extends ConsumerWidget {
   const TwitterAuth({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp.router(
       routerConfig: router,
       debugShowCheckedModeBanner: false,
       title: "Twitter Auth",
-      themeMode: context.watch<DarkModeConfigVm>().darkMode
+      themeMode: ref.watch(darkModeConfigProvider).darkMode
           ? ThemeMode.dark
           : ThemeMode.light,
       theme: ThemeData(

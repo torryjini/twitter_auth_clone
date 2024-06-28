@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 import 'package:twitter_auth_clone/constant/gaps.dart';
 import 'package:twitter_auth_clone/constant/sizes.dart';
 import 'package:twitter_auth_clone/features/main_navigation/views/view_model/dark_mode_config_vm.dart';
 import 'package:twitter_auth_clone/features/main_navigation/widgets/follow_button.dart';
 import 'package:twitter_auth_clone/features/main_navigation/widgets/thumbnail.dart';
 
-class UserListTile extends StatelessWidget {
+class UserListTile extends ConsumerWidget {
   final String userId;
   final String desc;
   final String followers;
@@ -20,7 +20,7 @@ class UserListTile extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.only(
         left: Sizes.size12,
@@ -63,7 +63,7 @@ class UserListTile extends StatelessWidget {
                               userId,
                               style: TextStyle(
                                 color:
-                                    context.watch<DarkModeConfigVm>().darkMode
+                                    ref.watch(darkModeConfigProvider).darkMode
                                         ? Colors.grey.shade200
                                         : Colors.black,
                                 fontWeight: FontWeight.bold,
@@ -89,7 +89,7 @@ class UserListTile extends StatelessWidget {
                         Text(
                           "$followers followers",
                           style: TextStyle(
-                            color: context.watch<DarkModeConfigVm>().darkMode
+                            color: ref.watch(darkModeConfigProvider).darkMode
                                 ? Colors.grey.shade200
                                 : Colors.black,
                             fontWeight: FontWeight.w400,

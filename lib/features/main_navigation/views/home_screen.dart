@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 import 'package:twitter_auth_clone/constant/sizes.dart';
 import 'package:twitter_auth_clone/features/main_navigation/views/view_model/dark_mode_config_vm.dart';
 import 'package:twitter_auth_clone/features/main_navigation/widgets/post.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends ConsumerWidget {
   static const routeUrl = "/";
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         title: FaIcon(
           FontAwesomeIcons.threads,
           size: Sizes.size36,
-          color: context.watch<DarkModeConfigVm>().darkMode
+          color: ref.watch(darkModeConfigProvider).darkMode
               ? Colors.white
               : Colors.black,
         ),

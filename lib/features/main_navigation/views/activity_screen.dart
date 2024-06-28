@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:twitter_auth_clone/constant/sizes.dart';
 import 'package:twitter_auth_clone/features/main_navigation/views/view_model/dark_mode_config_vm.dart';
 import 'package:twitter_auth_clone/features/main_navigation/widgets/activity_list_tile.dart';
@@ -41,17 +41,17 @@ final activities = [
   ),
 ];
 
-class ActivityScreen extends StatelessWidget {
+class ActivityScreen extends ConsumerWidget {
   static const routeUrl = "/activity";
   const ActivityScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return DefaultTabController(
       length: tabs.length,
       child: Scaffold(
         appBar: AppBar(
-          foregroundColor: context.watch<DarkModeConfigVm>().darkMode
+          foregroundColor: ref.watch(darkModeConfigProvider).darkMode
               ? Colors.grey.shade200
               : Colors.black,
           title: const Text(
@@ -64,12 +64,12 @@ class ActivityScreen extends StatelessWidget {
           centerTitle: false,
           bottom: TabBar(
             labelPadding: EdgeInsets.zero,
-            labelColor: context.watch<DarkModeConfigVm>().darkMode
+            labelColor: ref.watch(darkModeConfigProvider).darkMode
                 ? Colors.grey.shade200
                 : Colors.black,
             dividerColor: Colors.transparent,
             unselectedLabelStyle: TextStyle(
-              color: context.watch<DarkModeConfigVm>().darkMode
+              color: ref.watch(darkModeConfigProvider).darkMode
                   ? Colors.grey.shade200
                   : Colors.black,
             ),
@@ -79,7 +79,7 @@ class ActivityScreen extends StatelessWidget {
             labelStyle: const TextStyle(
               fontWeight: FontWeight.w600,
             ),
-            unselectedLabelColor: context.watch<DarkModeConfigVm>().darkMode
+            unselectedLabelColor: ref.watch(darkModeConfigProvider).darkMode
                 ? Colors.grey.shade200
                 : Colors.black,
             indicatorColor: Colors.transparent,
@@ -93,7 +93,7 @@ class ActivityScreen extends StatelessWidget {
                       vertical: Sizes.size6, horizontal: Sizes.size24),
                   decoration: BoxDecoration(
                     border: Border.all(
-                      color: context.watch<DarkModeConfigVm>().darkMode
+                      color: ref.watch(darkModeConfigProvider).darkMode
                           ? Colors.grey.shade200
                           : Colors.black,
                     ),
@@ -104,7 +104,7 @@ class ActivityScreen extends StatelessWidget {
                     style: TextStyle(
                         fontSize: Sizes.size20,
                         fontWeight: FontWeight.w600,
-                        color: context.watch<DarkModeConfigVm>().darkMode
+                        color: ref.watch(darkModeConfigProvider).darkMode
                             ? Colors.grey.shade200
                             : Colors.black),
                   ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 import 'package:twitter_auth_clone/features/main_navigation/views/activity_screen.dart';
 import 'package:twitter_auth_clone/features/main_navigation/views/home_screen.dart';
 import 'package:twitter_auth_clone/features/main_navigation/views/view_model/dark_mode_config_vm.dart';
@@ -9,7 +9,7 @@ import 'package:twitter_auth_clone/features/main_navigation/views/create_post.da
 import 'package:twitter_auth_clone/features/main_navigation/widgets/nav_tab.dart';
 import 'package:twitter_auth_clone/features/main_navigation/views/user_profile_screen.dart';
 
-class MainNavigationScreen extends StatefulWidget {
+class MainNavigationScreen extends ConsumerStatefulWidget {
   static const routeUrl = "/";
 
   const MainNavigationScreen({
@@ -17,10 +17,10 @@ class MainNavigationScreen extends StatefulWidget {
   });
 
   @override
-  State<MainNavigationScreen> createState() => _MainNavigationScreenState();
+  MainNavigationScreenState createState() => MainNavigationScreenState();
 }
 
-class _MainNavigationScreenState extends State<MainNavigationScreen> {
+class MainNavigationScreenState extends ConsumerState<MainNavigationScreen> {
   int _selectedIndex = 0;
 
   void _onTap(int index) {
@@ -74,7 +74,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
         ],
       ),
       bottomNavigationBar: BottomAppBar(
-        color: context.watch<DarkModeConfigVm>().darkMode
+        color: ref.watch(darkModeConfigProvider).darkMode
             ? Colors.grey.shade900
             : Colors.white,
         child: Row(

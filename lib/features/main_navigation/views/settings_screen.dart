@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:twitter_auth_clone/features/main_navigation/views/view_model/dark_mode_config_vm.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        foregroundColor: context.watch<DarkModeConfigVm>().darkMode
+        foregroundColor: ref.watch(darkModeConfigProvider).darkMode
             ? Colors.white
             : Colors.black,
         title: const Text(
@@ -22,9 +22,9 @@ class SettingsScreen extends StatelessWidget {
       body: ListView(
         children: [
           SwitchListTile.adaptive(
-            value: context.watch<DarkModeConfigVm>().darkMode,
+            value: ref.watch(darkModeConfigProvider).darkMode,
             onChanged: (value) =>
-                context.read<DarkModeConfigVm>().setDarkMode(value),
+                ref.read(darkModeConfigProvider.notifier).setDarkMode(value),
             title: const Text("Dark mode"),
             subtitle: const Text("App will be dark mode by default."),
           ),

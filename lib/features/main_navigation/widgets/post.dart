@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 import 'package:twitter_auth_clone/constant/gaps.dart';
 import 'package:twitter_auth_clone/constant/sizes.dart';
 import 'package:twitter_auth_clone/features/main_navigation/views/view_model/dark_mode_config_vm.dart';
 import 'package:twitter_auth_clone/features/main_navigation/widgets/three_dot_menu.dart';
 import 'package:twitter_auth_clone/features/main_navigation/widgets/thumbnail.dart';
 
-class Post extends StatelessWidget {
+class Post extends ConsumerWidget {
   final String userId;
   final String content;
   final int likes;
@@ -29,14 +29,13 @@ class Post extends StatelessWidget {
     showModalBottomSheet(
       showDragHandle: true,
       scrollControlDisabledMaxHeightRatio: 0.6,
-      
       context: context,
       builder: (context) => const ThreeDotMenu(),
     );
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       padding: const EdgeInsets.symmetric(
           horizontal: Sizes.size6, vertical: Sizes.size18),
@@ -66,7 +65,7 @@ class Post extends StatelessWidget {
                               userId,
                               style: TextStyle(
                                 color:
-                                    context.watch<DarkModeConfigVm>().darkMode
+                                    ref.watch(darkModeConfigProvider).darkMode
                                         ? Colors.white
                                         : Colors.black,
                                 fontWeight: FontWeight.bold,
@@ -94,7 +93,7 @@ class Post extends StatelessWidget {
                               icon: Icon(
                                 Icons.more_horiz,
                                 color:
-                                    context.watch<DarkModeConfigVm>().darkMode
+                                    ref.watch(darkModeConfigProvider).darkMode
                                         ? Colors.grey.shade400
                                         : Colors.black,
                                 size: Sizes.size28,
@@ -108,7 +107,7 @@ class Post extends StatelessWidget {
                       content,
                       style: TextStyle(
                         fontSize: Sizes.size16,
-                        color: context.watch<DarkModeConfigVm>().darkMode
+                        color: ref.watch(darkModeConfigProvider).darkMode
                             ? Colors.grey.shade300
                             : Colors.black,
                       ),
@@ -142,28 +141,28 @@ class Post extends StatelessWidget {
                       children: [
                         FaIcon(
                           FontAwesomeIcons.heart,
-                          color: context.watch<DarkModeConfigVm>().darkMode
+                          color: ref.watch(darkModeConfigProvider).darkMode
                               ? Colors.grey.shade200
                               : Colors.black,
                         ),
                         Gaps.h12,
                         FaIcon(
                           FontAwesomeIcons.comment,
-                          color: context.watch<DarkModeConfigVm>().darkMode
+                          color: ref.watch(darkModeConfigProvider).darkMode
                               ? Colors.grey.shade200
                               : Colors.black,
                         ),
                         Gaps.h12,
                         FaIcon(
                           FontAwesomeIcons.share,
-                          color: context.watch<DarkModeConfigVm>().darkMode
+                          color: ref.watch(darkModeConfigProvider).darkMode
                               ? Colors.grey.shade200
                               : Colors.black,
                         ),
                         Gaps.h12,
                         FaIcon(
                           FontAwesomeIcons.paperPlane,
-                          color: context.watch<DarkModeConfigVm>().darkMode
+                          color: ref.watch(darkModeConfigProvider).darkMode
                               ? Colors.grey.shade200
                               : Colors.black,
                         ),
@@ -176,7 +175,7 @@ class Post extends StatelessWidget {
                         Text(
                           "${comments.toString()} replies",
                           style: TextStyle(
-                            color: context.watch<DarkModeConfigVm>().darkMode
+                            color: ref.watch(darkModeConfigProvider).darkMode
                                 ? Colors.grey.shade200
                                 : Colors.black,
                           ),
@@ -185,7 +184,7 @@ class Post extends StatelessWidget {
                         Text(
                           "${likes.toString()} likes",
                           style: TextStyle(
-                            color: context.watch<DarkModeConfigVm>().darkMode
+                            color: ref.watch(darkModeConfigProvider).darkMode
                                 ? Colors.grey.shade200
                                 : Colors.black,
                           ),

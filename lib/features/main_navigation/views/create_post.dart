@@ -1,22 +1,22 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 import 'package:twitter_auth_clone/constant/gaps.dart';
 import 'package:twitter_auth_clone/constant/sizes.dart';
 import 'package:twitter_auth_clone/features/camera/camera_screen.dart';
 import 'package:twitter_auth_clone/features/main_navigation/views/view_model/dark_mode_config_vm.dart';
 import 'package:twitter_auth_clone/features/main_navigation/widgets/thumbnail.dart';
 
-class CreatePost extends StatefulWidget {
+class CreatePost extends ConsumerStatefulWidget {
   const CreatePost({super.key});
 
   @override
-  State<CreatePost> createState() => _CreatePostState();
+  CreatePostState createState() => CreatePostState();
 }
 
-class _CreatePostState extends State<CreatePost> {
+class CreatePostState extends ConsumerState<CreatePost> {
   void _onCancelPressed() {
     Navigator.of(context).pop();
   }
@@ -69,7 +69,7 @@ class _CreatePostState extends State<CreatePost> {
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          foregroundColor: context.watch<DarkModeConfigVm>().darkMode
+          foregroundColor: ref.watch(darkModeConfigProvider).darkMode
               ? Colors.grey.shade200
               : Colors.black,
           title: const Text(
@@ -86,7 +86,7 @@ class _CreatePostState extends State<CreatePost> {
                 child: Text(
                   "Cancel",
                   style: TextStyle(
-                      color: context.watch<DarkModeConfigVm>().darkMode
+                      color: ref.watch(darkModeConfigProvider).darkMode
                           ? Colors.grey.shade200
                           : Colors.black,
                       fontSize: Sizes.size12),
@@ -113,7 +113,7 @@ class _CreatePostState extends State<CreatePost> {
                         Text(
                           "nomad_mj",
                           style: TextStyle(
-                            color: context.watch<DarkModeConfigVm>().darkMode
+                            color: ref.watch(darkModeConfigProvider).darkMode
                                 ? Colors.grey.shade200
                                 : Colors.black,
                             fontWeight: FontWeight.bold,
@@ -136,10 +136,9 @@ class _CreatePostState extends State<CreatePost> {
                                 onTap: _onClipTap,
                                 child: FaIcon(
                                   FontAwesomeIcons.paperclip,
-                                  color:
-                                      context.watch<DarkModeConfigVm>().darkMode
-                                          ? Colors.grey.shade200
-                                          : Colors.grey.shade600,
+                                  color: ref.watch(darkModeConfigProvider).darkMode 
+                                      ? Colors.grey.shade200
+                                      : Colors.grey.shade600,
                                 ),
                               )
                             : FractionallySizedBox(
@@ -163,7 +162,7 @@ class _CreatePostState extends State<CreatePost> {
           ),
         ),
         bottomNavigationBar: BottomAppBar(
-          color: context.watch<DarkModeConfigVm>().darkMode
+          color: ref.watch(darkModeConfigProvider).darkMode
               ? Colors.grey.shade900
               : Colors.white,
           child: Padding(
@@ -175,7 +174,7 @@ class _CreatePostState extends State<CreatePost> {
                 Text(
                   "Anyone can reply",
                   style: TextStyle(
-                    color: context.watch<DarkModeConfigVm>().darkMode
+                    color: ref.watch(darkModeConfigProvider).darkMode
                         ? Colors.white
                         : Colors.grey.shade400,
                     fontSize: Sizes.size16,

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:twitter_auth_clone/constant/sizes.dart';
 import 'package:twitter_auth_clone/features/main_navigation/views/view_model/dark_mode_config_vm.dart';
 import 'package:twitter_auth_clone/features/main_navigation/widgets/user_list_tile.dart';
@@ -44,16 +44,16 @@ final users = [
   ),
 ];
 
-class SearchScreen extends StatelessWidget {
+class SearchScreen extends ConsumerWidget {
   static const routeUrl = "/search";
 
   const SearchScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        foregroundColor: context.watch<DarkModeConfigVm>().darkMode
+        foregroundColor: ref.watch(darkModeConfigProvider).darkMode
             ? Colors.grey.shade200
             : Colors.black,
         title: const Padding(

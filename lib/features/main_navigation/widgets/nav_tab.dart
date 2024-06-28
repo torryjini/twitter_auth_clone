@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 import 'package:twitter_auth_clone/constant/sizes.dart';
 import 'package:twitter_auth_clone/features/main_navigation/views/view_model/dark_mode_config_vm.dart';
 
-class NavTab extends StatelessWidget {
+class NavTab extends ConsumerWidget {
   const NavTab({
     super.key,
     required this.isSelected,
@@ -17,7 +17,7 @@ class NavTab extends StatelessWidget {
   final Function onTap;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Expanded(
       child: GestureDetector(
         onTap: () => onTap(),
@@ -29,7 +29,7 @@ class NavTab extends StatelessWidget {
               opacity: isSelected ? 1 : 0.4,
               child: FaIcon(
                 icon,
-                color: context.watch<DarkModeConfigVm>().darkMode
+                color: ref.watch(darkModeConfigProvider).darkMode
                     ? Colors.white
                     : Colors.black,
                 size: Sizes.size24,
